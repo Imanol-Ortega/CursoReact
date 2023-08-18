@@ -10,5 +10,10 @@ body {
 .App {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 8px;
+    width: 320px;
+    height: 240px;
+    background-color: #333;
+    border-radius: 20px;
 }

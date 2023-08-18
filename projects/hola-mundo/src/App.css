@@ -3,15 +3,24 @@
     align-items: center;
     color: #fff;
     font-size: .8rem;
+
     justify-content: space-between;
   }
-  
+  .tw-followCard:hover{
+    background-color: #444;
+
+  }
   .tw-followCard-header {
     display: flex;
     align-items: center;
-    gap: 4px
+    gap: 8px;
+    padding-left: 10px;
+    z-index: 2;
   }
-  
+  .tw-followCard-aside{
+    padding-right: 5px;
+    z-index: 1;
+  }
   .tw-followCard-info {
     display: flex;
     flex-direction: column;
@@ -34,8 +43,9 @@
     border-radius: 999px;
     padding: 6px 16px;
     font-weight: bold;
-    border: 1px solid #000;
+    border: 1px solid #fff;
     transition: .3s ease background-color;
+    
   }
   
   .tw-followCard-button:hover {
