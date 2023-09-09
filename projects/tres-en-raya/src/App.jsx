@@ -1,33 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+
+import { useState } from "react"
+import { Square } from "./componentes/Square.jsx"
+import { TURNS } from "./constantes.js"
+import { checkWinner,checkEndGame } from "./logic/board.js"
+import { Winner } from "./componentes/Winner.jsx"
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [board,setBoard] = useState(Array(9).fill(null))
+  const [turn,setTurn] = useState(TURNS.X)
+  const [winner, setWinner] = useState(null)
+
+  const resetGame = ()=>{
+    setBoard(Array(9).fill(null))
+    setTurn(TURNS.X)
+    setWinner(null)
+  }
+
+  const updateBoard = (index)=>{
+    if (board[index] || winner) return
+    const newBoard = [...board]
+    newBoard[index] = turn
+    setBoard(newBoard)
+    const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
+    setTurn(newTurn)
+    
+
+    const newWinner = checkWinner(newBoard)
+    if (newWinner){
+      setWinner(newWinner)
+    }
+    else if (checkEndGame(newBoard)){
+      setWinner(false)
+    }
+  }
+
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <main className="board">
+      <h1>Tres En Raya</h1>
+      <section className="game">
+        { 
+        board.map((square,index)=>{
+        return(
+          <Square key={index} index={index} updateBoard={updateBoard}>{square}</Square>
+        )
+      })}
+      </section>
+      <section className="turn">
+        <Square isSelected = {turn === TURNS.X}>{TURNS.X}</Square>
+        <Square isSelected = {turn === TURNS.O}>{TURNS.O}</Square>
+      </section>
+       <Winner resetGame={resetGame} winner={winner}/>
+    </main>
     </>
   )
 }
